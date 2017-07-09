@@ -1,0 +1,11 @@
+version: '3'
+
+
+services:
+       
+  site:
+      image: alephp/php56oci
+      ports:
+        - 8000:80
+      volumes:
+        - $PWD:/var/www
