@@ -1,0 +1,28 @@
+{
+  "name": "nishimaru",
+  "version": "1.0.0",
+  "description": "website",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://devalexandre@bitbucket.org/devalexandre/nishimaru.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/devalexandre/nishimaru#readme",
+  "devDependencies": {
+    "standard": "^10.0.2",
+    "webpack": "^3.1.0",
+    "webpack-dev-server": "^2.5.1"
+  },
+  "dependencies": {
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1"
+  }
+}
