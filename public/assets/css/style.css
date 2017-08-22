@@ -23,10 +23,18 @@ button {
 .filtros{
     margin: 0; 
     position: fixed;
-    top: 55px;
+    top: 102px;
     right: 10px;
     z-index: 1000;
     display: none;
+}
+
+.novaEmpresa {
+	margin: 0; 	
+    position: fixed;
+    top: 55px;
+    right: 10px;
+    z-index: 1000;	
 }
 
 .formulario	{
@@ -93,4 +101,8 @@ button {
 
 .table tbody tr:hover {
 	font-weight: bold;
+}
+
+. {
+	width: 80% !important;
 }
