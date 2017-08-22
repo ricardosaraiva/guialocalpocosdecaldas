@@ -3,142 +3,107 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Guia do emprendedor</title>
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/css/materialize.min.css">
 	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-	<style>
-		a {
-			cursor: pointer;
-			color:  #666;
-		}
-		a:hover {
-			text-decoration: underline;
-		}
-		.formulario {
-			position: absolute;
-			left: 10%;
-			width: 80%;
-			top: 50%;
-			margin-top: -200px;
-			height: 400px;
-			z-index: 1000;
-		}
-		
-		.bg {
-			position: absolute;
-			top: 0;
-			left: 0;
-			height: 100%;
-			width: 100%;
-			background: #FFF;
-			opacity: 0.6;
-			border-radius: 20px;
-			border:  solid 10px #000;
-			z-index: 0;
-			-webkit-box-shadow: 0px 0px 25px 3px rgba(0,0,0,1);
-			-moz-box-shadow: 0px 0px 25px 3px rgba(0,0,0,1);
-			box-shadow: 0px 0px 25px 3px rgba(0,0,0,1);
-		}
-		.formulario .conteudo {
-			color:  #555;
-			padding: 20px;
-			top: 0;
-			left: 0;
-			height: 100%;
-			width: 100%;			
-			position: absolute;
-			z-index: 100;
-			margin-bottom: 15px;
-		}
-		.formulario .conteudo .logo {
-			text-align: center;
-			margin: 0;
-			padding: 0; 
-		}
-		.formulario .conteudo input {
-			margin: 0;
-			padding: 0; 
-			border:  solid 2px #999;
-			padding: 5px;
-			box-sizing: border-box;
-			height: 60px;
-			border-radius: 5px;
-			margin-bottom: 5px;
-		}
-		.formulario .conteudo .busca {
-			text-align: right;
-		}
-		.formulario .conteudo button {
-			border:  solid 1px #333;
-			background: #333;
-			color: #FFF;
-			border-radius: 5px;
-			font-size: 18px;
-			padding:  10px;
-		}
-		.formulario .conteudo .categoria {
-			width: 120px;
-			text-align: center;
-			display: inline-block;
-		}
-    	.map {
-    		z-index: 0;
-	       	overflow: hidden;
-	       	top: 0;
-	       	left: 0;
-	       	position: absolute;
-	        height: 100%;
-	        width: 100%;
-    	}
 
-    	.fullscreen{
-    		margin: 0; 
-    		position: fixed;
-    		top: 10px;
-    		right: 10px;
-    		z-index: 1000;
-    	}
-    </style>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+
+	<link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
 
-	<button onclick="toggleFullScreen()" class="btn-floating fullscreen waves-effect waves-light light-green accent-4"><i class="fa fa-arrows-alt"></i></button>
+	<button onclick="toggleFullScreen()" class="btn btn-success fullscreen">
+		<i class="fa fa-arrows-alt"></i>
+	</button>
 
-	<div class="formulario">
+	<button onclick="filtros()" id="filtros" class="btn btn-info filtros">
+		<i class="fa fa-search"></i>
+	</button>	
+
+	<div id="formulario" class="formulario">
+
 		<div class="conteudo">
-			<h1 class="logo">LOGO</h1>
+			<button onclick="fecharFiltros()" class="btn btn-danger fechar"><i class="fa fa-times"></i></button>
+			<div class="logo"><img src="assets/imgs/logo.png" width="200px"></div>
 			
-			
-				<div class="busca">
-					<input type="text">
-					<button>&nbsp;&nbsp;<i class="fa fa-cog"></i>&nbsp;&nbsp;</button>
-					<button><i class="fa fa-search"></i> Pesquisar</button>
+			<div class="row">
+				<div class="col-md-10 col-sm-10">
+					<input placeholder="Buscar por: Nome, Bairro e Categoria" type="text" class="form-control form-control-lg">
 				</div>
-
-				<h4>Categorias:</h4>
-
-				<div class="categorias">
-
-					<a class="categoria">
-						<i class="fa fa-university fa-2x"></i><br>
-						Faculdades <br> Escolas
-					</a>
-
-					<a class="categoria">
-						<i class="fa fa-car fa-2x"></i><br>
-						Venda de veiculos
-					</a>				
+				<div class="col-md-2 col-sm-2">
+					<button class="form-control btn btn-lg btn-success"><i class="fa fa-search"></i></button>
 				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-md-6">
+				<table class="table hidden-md-down">
+					<thead>
+						<tr>
+							<th width="150px">Nº Empresas</th>
+							<th>Categoria</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>50</td>
+							<td><a href="#">Automóveis</a></td>
+						</tr>
+		
+						<tr>
+							<td>40</td>
+							<td><a href="#">Informática</a></td>
+						</tr>
+
+						<tr>	
+							<td>30</td>
+							<td><a href="#">Bares / Restaurante</a></td>
+						</tr>									
+					</tbody>
+				</table>					
+				</div>
+				<div class="col-md-6">
+				<table class="table hidden-md-down">
+					<thead>
+						<tr>
+							<th width="150px">Nº Empresas</th>
+							<th>Categoria</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>25</td>
+							<td><a href="#">Industria</a></td>
+						</tr>
+		
+						<tr>
+							<td>20</td>
+							<td><a href="#">Supermercado</a></td>
+						</tr>
+
+						<tr>	
+							<td>10</td>
+							<td><a href="#">Lojas</a></td>
+						</tr>									
+					</tbody>
+				</table>					
+				</div>
+			</div>
 
 		</div>
+
 		<div class="bg"></div>
 	</div>
+
+	
 
 	<div id="map" class="map"></div>
 
 </body>
 </html>
 
- <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/js/materialize.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
 <script>
 
 	function toggleFullScreen() {
@@ -174,6 +139,16 @@
           fullscreenControl: false,
           zoom: 13
         });
+    }
+
+    function fecharFiltros() {
+    	document.getElementById('formulario').style.display = 'none';
+    	document.getElementById('filtros').style.display = 'block';
+    }
+
+    function filtros() {
+		document.getElementById('formulario').style.display = 'block';
+    	document.getElementById('filtros').style.display = 'none';    		
     }
 </script>
 <script async defer  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyApjxPfyiREU8MCuWfypkzOiS8qYlG3Xqg&callback=initMap">

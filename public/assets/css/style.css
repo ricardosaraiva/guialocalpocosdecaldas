@@ -1,0 +1,96 @@
+button {
+	cursor:  pointer;
+}
+
+.map {
+    z-index: 0;
+	overflow: hidden;
+	top: 0;
+	left: 0;
+    position: absolute;
+	height: 100%;
+	width: 100%;
+}
+
+.fullscreen{
+    margin: 0; 
+    position: fixed;
+    top: 8px;
+    right: 10px;
+    z-index: 1000;
+}
+
+.filtros{
+    margin: 0; 
+    position: fixed;
+    top: 55px;
+    right: 10px;
+    z-index: 1000;
+    display: none;
+}
+
+.formulario	{
+	position: absolute;
+	left: 10%;
+	top: 10%;
+	width: 80%;
+	height: 80%;
+	padding: 0px;
+	z-index: 100;
+}
+
+.formulario .bg {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	background: #FFF;
+	z-index: 0;
+	border-radius: 10px;
+	opacity: 0.5;
+	border:  #1f601f 10px solid;
+}
+
+.formulario .conteudo {
+	color: #FFF;
+	padding: 20px;
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;	
+	z-index: 100;
+}
+
+.formulario .conteudo .fechar {
+	position: absolute;
+	top: -12px;
+	right: -12px;
+	z-index: 150;
+}
+
+.formulario .conteudo .logo {
+	text-align: center;
+	margin-top:  15px;
+	margin-bottom:  15px;
+}
+
+.table {
+	margin-top: 15px;
+	color: #666;
+}
+
+.table thead th {
+	border-bottom: none;
+}
+
+.table tbody td a, .table tbody td a:hover, .table tbody td{
+	color: #0157af;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+.table tbody tr:hover {
+	font-weight: bold;
+}
