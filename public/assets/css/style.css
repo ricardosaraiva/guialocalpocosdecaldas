@@ -23,7 +23,7 @@ button {
 .filtros{
     margin: 0; 
     position: fixed;
-    top: 102px;
+    top: 148px;
     right: 10px;
     z-index: 1000;
     display: none;
@@ -33,6 +33,14 @@ button {
 	margin: 0; 	
     position: fixed;
     top: 55px;
+    right: 10px;
+    z-index: 1000;	
+}
+
+.info {
+	margin: 0; 	
+    position: fixed;
+    top: 102px;
     right: 10px;
     z-index: 1000;	
 }
@@ -103,6 +111,6 @@ button {
 	font-weight: bold;
 }
 
-. {
-	width: 80% !important;
+.menus .btn{
+	width: 50px;
 }

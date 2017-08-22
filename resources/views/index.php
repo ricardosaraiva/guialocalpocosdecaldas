@@ -56,18 +56,24 @@
 	    </div>
 	  </div>
 	</div>
+	
+	<div class="menus">
+		<button onclick="toggleFullScreen()" class="btn btn-success fullscreen">
+			<i class="fa fa-arrows-alt"></i>
+		</button>
+		
+		<button class="btn btn-success info">
+			<i class="fa fa-line-chart"></i>
+		</button>	
 
-	<button onclick="toggleFullScreen()" class="btn btn-success fullscreen">
-		<i class="fa fa-arrows-alt"></i>
-	</button>
+		<button onclick="filtros()" id="filtros" class="btn btn-success filtros">
+			<i class="fa fa-search"></i>
+		</button>	
 
-	<button onclick="filtros()" id="filtros" class="btn btn-success filtros">
-		<i class="fa fa-search"></i>
-	</button>	
-
-	<button  data-toggle="modal" href='#novaEmpresa' class="btn btn-success novaEmpresa">
-		<i class="fa fa-plus"></i>
-	</button>		
+		<button  data-toggle="modal" href='#novaEmpresa' class="btn btn-success novaEmpresa">
+			<i class="fa fa-plus"></i>
+		</button>		
+	</div>
 
 	<div id="formulario" class="formulario">
 
