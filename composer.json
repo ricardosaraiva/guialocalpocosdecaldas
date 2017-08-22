@@ -9,7 +9,8 @@
         "laravel/lumen-framework": "5.4.*",
         "vlucas/phpdotenv": "~2.2",
         "reliese/laravel": "^0.0.13",
-        "irazasyed/larasupport": "~1.0"
+        "irazasyed/larasupport": "~1.0",
+        "guzzlehttp/guzzle": "~6.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
