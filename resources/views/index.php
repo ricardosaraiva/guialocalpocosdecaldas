@@ -11,7 +11,7 @@
 </head>
 <body>
 
-
+	<?php /*
 	<div class="modal fade" id="novaEmpresa">
 	  <div class="modal-dialog modal-lg" role="document">
 	    <div class="modal-content">
@@ -55,7 +55,7 @@
 	      </div>
 	    </div>
 	  </div>
-	</div>
+	</div>*/?>
 	
 	<div class="menus">
 		<button onclick="toggleFullScreen()" class="btn btn-success fullscreen">
@@ -69,10 +69,12 @@
 		<button onclick="filtros()" id="filtros" class="btn btn-success filtros">
 			<i class="fa fa-search"></i>
 		</button>	
-
+		
+		<?php /*
 		<button  data-toggle="modal" href='#novaEmpresa' class="btn btn-success novaEmpresa">
 			<i class="fa fa-plus"></i>
-		</button>		
+		</button>
+		*/?>		
 	</div>
 
 	<div id="formulario" class="formulario">

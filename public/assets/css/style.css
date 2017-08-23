@@ -31,24 +31,24 @@ button {
 .filtros{
     margin: 0; 
     position: fixed;
-    top: 148px;
+    top: 102px;
     right: 10px;
     z-index: 1000;
     display: none;
 }
 
-.novaEmpresa {
+/* .novaEmpresa {
 	margin: 0; 	
     position: fixed;
     top: 55px;
     right: 10px;
     z-index: 1000;	
-}
+} */
 
 .info {
 	margin: 0; 	
     position: fixed;
-    top: 102px;
+    top: 55px;
     right: 10px;
     z-index: 1000;	
 }
