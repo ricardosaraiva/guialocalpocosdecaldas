@@ -43,11 +43,13 @@ class AtualizadorCoordenadas extends Command
 
             echo $endereco->id . ' - ';
 
-            $coordenadas = json_decode(($http->request('GET', 'https://maps.googleapis.com/maps/api/geocode/json?key=' .
+            $request = $http->request('GET', 'https://maps.googleapis.com/maps/api/geocode/json?key=' .
                 $keys->offsetGet($pagina - 1) , [
                 'query' => ['address' => "{$endereco->cidade},{$endereco->numero} {$endereco->rua} {$endereco->cep}"],
                 'timeout' => 2
-            ]))->getBody());     
+            ]);
+
+            $coordenadas = json_decode($request->getBody());     
 
 
             if($coordenadas->status != 'OK') {
