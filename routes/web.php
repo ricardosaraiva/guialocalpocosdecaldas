@@ -14,3 +14,11 @@
 $app->get('/', function () use ($app) {
     return view('index');
 });
+
+$app->get('/login', function () use ($app) {
+    return view('login');
+});
+
+$app->get('/admin', function () use ($app) {
+    return view('admin');
+});
