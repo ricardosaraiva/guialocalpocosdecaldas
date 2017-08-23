@@ -2,6 +2,10 @@
 	text-align: right;
 }
 
+.center {
+	text-align: center;
+}
+
 button {
 	cursor:  pointer;
 }
@@ -108,11 +112,11 @@ button {
 .table tbody td a, .table tbody td a:hover, .table tbody td{
 	color: #0157af;
 	text-decoration: none;
-	cursor: pointer;
 }
 
-.table tbody tr:hover {
+.table-hover tbody tr:hover {
 	font-weight: bold;
+	cursor: pointer;
 }
 
 .menus .btn{
@@ -147,4 +151,22 @@ button {
 
 #login .formLogin .logo {
 	margin: 20px;
+}
+
+#admin .logo {
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+#admin .sair {
+	padding-top: 20px;
+}
+
+#admin .sair a {
+	font-weight: normal !important;
+	font-size: 14px;
+}
+
+#admin .sair a:hover, #admin .sair a:active, #admin .sair a:focus{
+	text-decoration: none !important;
 }

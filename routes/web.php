@@ -22,3 +22,7 @@ $app->get('/login', function () use ($app) {
 $app->get('/admin', function () use ($app) {
     return view('admin');
 });
+
+$app->get('/admin/sair', function () use ($app) {
+	   
+});

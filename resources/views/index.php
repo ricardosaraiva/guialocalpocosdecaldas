@@ -92,7 +92,7 @@
 
 			<div class="row">
 				<div class="col-md-6">
-				<table class="table hidden-md-down">
+				<table class="table hidden-md-down table-hover">
 					<thead>
 						<tr>
 							<th width="150px">Nº Empresas</th>
@@ -118,7 +118,7 @@
 				</table>					
 				</div>
 				<div class="col-md-6">
-				<table class="table hidden-md-down">
+				<table class="table hidden-md-down table-hover">
 					<thead>
 						<tr>
 							<th width="150px">Nº Empresas</th>
