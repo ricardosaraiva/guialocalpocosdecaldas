@@ -1,7 +1,7 @@
 <?php
 namespace App\Console\Commands;
 
-use App\Endereco;
+use App\Model\Endereco;
 use Illuminate\Console\Command;
 
 class AtualizadorCoordenadas extends Command
