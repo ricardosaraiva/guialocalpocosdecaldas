@@ -15,6 +15,8 @@ $app->get('/', function () use ($app) {
     return view('index');
 });
 
+$app->get('/empresa', ['uses' => 'Empresa@get']);
+
 // $app->get('/login', function () use ($app) {
 //     return view('login');
 // });
