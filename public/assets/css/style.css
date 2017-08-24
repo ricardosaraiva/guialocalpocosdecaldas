@@ -170,3 +170,29 @@ button {
 #admin .sair a:hover, #admin .sair a:active, #admin .sair a:focus{
 	text-decoration: none !important;
 }
+
+.graficos {
+	display: none;
+	position: absolute;
+	background: #FFF;
+	width: 100%;
+	height: 100%;
+	z-index: 1200;
+	padding: 20px;
+}
+
+.graficos h1 {
+	font-size: 36px;
+}
+
+.graficos h2 {
+	font-size: 18px;
+}
+
+.graficos .table tr td{
+	color: #666;
+}
+
+.graficos .filtro {
+	margin-bottom: 15px !important;
+}

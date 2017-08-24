@@ -62,7 +62,7 @@
 			<i class="fa fa-arrows-alt"></i>
 		</button>
 		
-		<button class="btn btn-success info">
+		<button class="btn btn-success info" onclick="grafico()">
 			<i class="fa fa-line-chart"></i>
 		</button>	
 
@@ -75,6 +75,49 @@
 			<i class="fa fa-plus"></i>
 		</button>
 		*/?>		
+	</div>
+
+	<div id="graficos" class="graficos">
+		<div class="row">
+			<div class="col-md-10">
+				<h1></h1>
+			</div>
+			<div class="col-md-2 right">
+				<button class="btn btn-danger" onclick="fecharGrafico()"><i class="fa fa-times"></i></button>
+			</div>
+		</div>
+
+		<div id="chart_div"></div>
+
+		<div class="row filtro">
+			<div class="col-md-4">
+				<select class="form-control" name="" id="">
+					<option value="0">Listar por bairro</option>
+					<option value="1">Listar por categoria</option>
+				</select>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-12">
+				<h2>Jardim Kenndy</h2>
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<th>Categoria</th>
+							<th class="center" width="150px">Empresas</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>Categoria 1</td>
+							<td class="center">10</td>
+						</tr>
+					</tbody>
+					
+				</table>
+			</div>
+		</div>
 	</div>
 
 	<div id="formulario" class="formulario">
@@ -152,13 +195,12 @@
 		<div class="bg"></div>
 	</div>
 
-	
-
 	<div id="map" class="map"></div>
 
 </body>
 </html>
 
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
@@ -207,6 +249,36 @@
     function filtros() {
 		document.getElementById('formulario').style.display = 'block';
     	document.getElementById('filtros').style.display = 'none';    		
+    }
+
+    function grafico() {
+		google.charts.load('current', {packages: ['corechart', 'line']});
+		google.charts.setOnLoadCallback(drawChart);
+
+		function drawChart() {
+	        var data = google.visualization.arrayToDataTable([
+	          ['Ano', 'Empresas'],
+	          ['2004',  10],
+	          ['2005',  11],
+	          ['2006',  15],
+	          ['2007',  5]
+	        ]);
+
+	        var options = {
+	          title: 'Crescimento de empresas',
+	          legend: 'none'
+	        };
+
+	        var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+
+	        chart.draw(data, options);
+	    }    	
+
+    	document.getElementById('graficos').style.display = 'block';    	
+    }
+
+    function fecharGrafico() {
+    	document.getElementById('graficos').style.display = 'none';    	
     }
 </script>
 <script async defer  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyApjxPfyiREU8MCuWfypkzOiS8qYlG3Xqg&callback=initMap">
