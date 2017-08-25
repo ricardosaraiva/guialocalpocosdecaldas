@@ -128,7 +128,7 @@
 			
 			<div class="row">
 				<div class="col-md-10 col-sm-10">
-					<input placeholder="Buscar por: Nome, Bairro e Categoria" type="text" class="form-control form-control-lg">
+					<input placeholder="Buscar por: Nome, Bairro e Categoria" name="dados" type="text" class="form-control form-control-lg">
 				</div>
 				<div class="col-md-2 col-sm-2">
 					<button class="form-control btn btn-lg btn-success"><i class="fa fa-search"></i></button>
