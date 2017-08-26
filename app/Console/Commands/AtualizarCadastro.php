@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 
 class AtualizarCadastro extends Command
 {
+	
     protected $signature = 'cadastro {pagina}';
     protected $name = 'cadastro';
     protected $description = "Atualiza o cadastro das empresas";
@@ -15,40 +16,34 @@ class AtualizarCadastro extends Command
      */
     public function handle()
     {
+    	set_time_limit(10000);
 
     	$pagina = (int) $this->argument('pagina') - 1;
 
     	$empresas = Empresa::
-    	select('codigo')->
+    	select('codigo', 'documento')->
     	where('atualizado', '=', 0)->
     	offset($pagina * 500)->
         limit(500)->
     	get();
 
-		$http = new \GuzzleHttp\Client();
-
-		// (
-		// 	['headers'=> [ 
-		// 		'User-Agent'=>'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.81 Safari/537.36'
-		// 		]
-		// 	])
+		$http = new \GuzzleHttp\Client
+		(
+			['headers'=> [ 
+				'User-Agent'=>'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.81 Safari/537.36'
+				]
+			]);
 		
 
         $erro = 0;    	
 
     	foreach ($empresas as $empresa) {
-
-    		try {
-				$request = $http->request('GET', 'http://receitaws.com.br/v1/cnpj/' .  preg_replace('/[^0-9]/', '', $empresa->documento) ,
-				['timeout' => 5]);
+    		
+			$request = $http->request('GET', 'http://receitaws.com.br/v1/cnpj/' .  preg_replace('/[^0-9]/', '', $empresa->documento));
 
 
-				$dados = $request->getBody();
-				echo $dados;		
-    		} catch ( GuzzleHttp\Exception\ConnectException $e) {
-    			print_r($e);
-    			continue;
-    		}
+			$dados = $request->getBody();
+				
 			
 			if($request->getStatusCode() == 200 ) {
 
