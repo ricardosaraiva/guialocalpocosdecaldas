@@ -84,11 +84,11 @@
 			<div class="col-md-10">
 				
 				<ul class="nav">
-				  <li class="nav-item">
-				    <a class="nav-link" href="#" onclick="graficoAtividade()"><i class="fa fa-building"></i> Atividade</a>
+				  <li class="nav-item" id="menuGraficoAtividade">
+				    <a class="nav-link" href="#" onclick="graficoAtividade()" ><i class="fa fa-building"></i> Atividade</a>
 				  </li>
-				  <li class="nav-item">
-				    <a class="nav-link" href="#"  onclick="graficoPeriodo()"><i class="fa fa-calendar"></i> Periodo</a>
+				  <li class="nav-item" id="menuGraficoPeriodo">
+				    <a class="nav-link" href="#"  onclick="graficoPeriodo()" ><i class="fa fa-calendar"></i> Periodo</a>
 				  </li>
 				</ul>
 
@@ -351,14 +351,23 @@ $vm  = new Vue({
 
     function grafico(periodo, atividade) {
 
-    	document.getElementById('graficos').style.display = 'block'; 
+    	document.getElementById('graficos').style.display = 'none';  
+		document.getElementById('graficoPeriodo').style.display = 'none';
+    	document.getElementById('graficoAtividade').style.display = 'none'; 
 
-		gerarGraficoPeriodo(periodo);
-		gerarGraficoAtividade(atividade);
-
-		graficoPeriodo();
-		// graficoAtividade();
-   	
+    	if(periodo.length > 0) {
+    		document.getElementById('graficos').style.display = 'block'; 
+    		document.getElementById('menuGraficoPeriodo').style.display = 'block';
+    		document.getElementById('menuGraficoPeriodo').style.display = 'block'; 
+			gerarGraficoPeriodo(periodo);
+			gerarGraficoAtividade(atividade);
+			graficoPeriodo(); 
+			return false;   		
+    	} 
+    	
+    	document.getElementById('menuGraficoPeriodo').style.display = 'none'; 
+    	document.getElementById('menuGraficoPeriodo').style.display = 'none';
+    	   	
     }
 
 

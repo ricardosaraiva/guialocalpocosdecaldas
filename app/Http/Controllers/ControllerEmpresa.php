@@ -24,17 +24,16 @@ class ControllerEmpresa extends Controller {
 		where(function ($where) {
 			$where->whereNotNull('latitude');
 			$where->whereNotNull('longitude');
-			$where->where(DB::Raw('YEAR(datainscricao)'), '>=', "2007");
-			$where->where(DB::Raw('YEAR(datainscricao)'), '<=', "2017");
-		})->orWhere(function ($where) use ($input) {
-			$where->where('atividade', 'like', "%$input%");
-			$where->where('bairro', 'like', "%$input%");
-			$where->where('nome', 'like', "%$input%");
-			$where->where('cep', 'like', "%$input%");
+			$where->where(DB::Raw('YEAR(datainscricao)'), '>=', 2007);
+			$where->where(DB::Raw('YEAR(datainscricao)'), '<=', 2017);
+		})->where(function ($where) use ($input) {
+			$where->orWhere('atividade', 'like', "%$input%");
+			$where->orWhere('bairro', 'like', "%$input%");
+			$where->orWhere('nome', 'like', "%$input%");
+			$where->orWhere('cep', 'like', "%$input%");
 		})->
 		limit(1000)->
 		get();
-
 
 		//periodo
 		$dados = addslashes($input);
@@ -69,6 +68,7 @@ class ControllerEmpresa extends Controller {
 			)
 			GROUP BY bairro
 			ORDER BY bairro ASC;"));	
+
 
 		//atividade
 		$atividade  = Db::select( Db::raw("
