@@ -12,7 +12,6 @@ class ControllerEmpresa extends Controller {
 			
 		$data = Empresa::WhereRaw("MATCH(tipo) 
 		AGAINST('".$request->input('dados')."')")
-		->limit(10)
 		->get();
 
 		return  $data;

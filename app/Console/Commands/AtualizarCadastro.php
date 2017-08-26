@@ -39,7 +39,7 @@ class AtualizarCadastro extends Command
 
     	foreach ($empresas as $empresa) {
     		
-			$request = $http->request('GET', 'http://receitaws.com.br/v1/cnpj/' .  preg_replace('/[^0-9]/', '', $empresa->documento));
+			$request = $http->request('GET', 'https://www.receitaws.com.br/v1/cnpj/' .  preg_replace('/[^0-9]/', '', $empresa->documento));
 
 
 			$dados = $request->getBody();

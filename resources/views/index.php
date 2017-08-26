@@ -6,6 +6,8 @@
 	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+<!-- import CSS -->
+<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-default/index.css">
 
 	<link rel="stylesheet" href="assets/css/style.css">
 </head>
@@ -136,57 +138,24 @@
 			</div>
 
 			<div class="row">
-				<div class="col-md-6">
-				<table class="table hidden-md-down table-hover">
-					<thead>
-						<tr>
-							<th width="150px">Nº Empresas</th>
-							<th>Categoria</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>50</td>
-							<td><a href="#">Automóveis</a></td>
-						</tr>
-		
-						<tr>
-							<td>40</td>
-							<td><a href="#">Informática</a></td>
-						</tr>
+				<div class="col-md-12">
+				<el-table
+				:data="dados"
+				height="250"
+				border
+				style="width: 100%">
+				<el-table-column
+					prop="nome"
+					label="Nome"
+					width="180">
+				</el-table-column>
+				<el-table-column
+					prop="tipo"
+					label="Tipo"
+					width="180">
+				</el-table-column>
 
-						<tr>	
-							<td>30</td>
-							<td><a href="#">Bares / Restaurante</a></td>
-						</tr>									
-					</tbody>
-				</table>					
-				</div>
-				<div class="col-md-6">
-				<table class="table hidden-md-down table-hover">
-					<thead>
-						<tr>
-							<th width="150px">Nº Empresas</th>
-							<th>Categoria</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>25</td>
-							<td><a href="#">Industria</a></td>
-						</tr>
-		
-						<tr>
-							<td>20</td>
-							<td><a href="#">Supermercado</a></td>
-						</tr>
-
-						<tr>	
-							<td>10</td>
-							<td><a href="#">Lojas</a></td>
-						</tr>									
-					</tbody>
-				</table>					
+			</el-table>					
 				</div>
 			</div>
 
@@ -206,19 +175,25 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.16.2/axios.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.4.2/vue.min.js" integrity="sha256-Gs0UYwrz/B58FsQggzU+vvCSyG/pewemP4Lssjzv8Ho=" crossorigin="anonymous"></script>
+<!-- import JavaScript -->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
 <script>
 
 new Vue({
 		'el':'#formulario',
 		data: {
 			dados: [],
-			buscar : ''
+			buscar : '',
+			loading: false
 		},
 		watch: {
 			buscar:function(val){
 			//	console.log(val)
+			vm = this;
+				this.loading = true;
 				axios.post('/empresa',{'dados':val})
 				.then(function (response) {
+					vm.dados = response.data;
 					console.log(response);
 				})
 				.catch(function (error) {
