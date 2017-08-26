@@ -128,7 +128,7 @@
 			
 			<div class="row">
 				<div class="col-md-10 col-sm-10">
-					<input placeholder="Buscar por: Nome, Bairro e Categoria" name="dados" type="text" class="form-control form-control-lg">
+					<input placeholder="Buscar por: Nome, Bairro e Categoria" name="dados" v-model='buscar' type="text" class="form-control form-control-lg">
 				</div>
 				<div class="col-md-2 col-sm-2">
 					<button class="form-control btn btn-lg btn-success"><i class="fa fa-search"></i></button>
@@ -204,7 +204,31 @@
 <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.16.2/axios.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.4.2/vue.min.js" integrity="sha256-Gs0UYwrz/B58FsQggzU+vvCSyG/pewemP4Lssjzv8Ho=" crossorigin="anonymous"></script>
 <script>
+
+new Vue({
+		'el':'#formulario',
+		data: {
+			dados: [],
+			buscar : ''
+		},
+		watch: {
+			buscar:function(val){
+			//	console.log(val)
+				axios.post('/empresa',{'dados':val})
+				.then(function (response) {
+					console.log(response);
+				})
+				.catch(function (error) {
+					console.log(error);
+				});
+						
+			}
+		}
+
+})
 
 	function toggleFullScreen() {
 		if (!document.fullscreenElement &&    // alternative standard method
