@@ -244,6 +244,7 @@ $vm  = new Vue({
 				
 			}
 			this.makeMarke(); // cria o cluster
+			fecharFiltros();
 		},
 
 		makeMarke:function(){
