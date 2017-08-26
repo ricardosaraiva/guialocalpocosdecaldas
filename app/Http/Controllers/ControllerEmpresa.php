@@ -11,37 +11,28 @@ class ControllerEmpresa extends Controller {
 
 		try{
 			
-		$count = Empresa::WhereRaw("MATCH(atividade) 
-		AGAINST('".$request->input('dados')." ')
-		 OR MATCH(bairro) 
-		 AGAINST('".$request->input('dados')." ') ")
-		->where('atualizado','=',1)
-		->limit(1)
-		->count();
 
+		$dados = $request->input('dados');
 
-		
-		if($count > 0){
-			$data = Empresa::WhereRaw("MATCH(atividade) 
-			AGAINST('".$request->input('dados')." ')
-			 AND MATCH(bairro) 
-			 AGAINST('".$request->input('dados')." ') ")
-			->where('atualizado','=',1)
-			->limit(200)
-			->get();
-			return  $data;
+		if(mb_strlen($dados, 'UTF-8') <= 3) {
+			return [];
 		}
 
-		if($bairro > 0){
-			$data = Empresa::WhereRaw("MATCH(bairro) 
-			AGAINST('".$request->input('dados')."')")
-			->where('atualizado','=',10)
-			//->limit(10)
-			->get();
-			return  $data;
-		}
+		$data = Empresa::
+		select('nome', 'logradouro', 'bairro', 'numero', 'latitude', 'longitude', 'atividade', 'datainscricao')->
+		where(function ($where) {
+			$where->whereNotNull('latitude');
+			$where->whereNotNull('longitude');
+		})->orWhere(function ($where) use ($dados) {
+			$where->where('atividade', '=', "%$dados%");
+			$where->where('bairro', '=', "%$dados%");
+			$where->where('nome', '=', "%$dados%");
+			$where->where('cep', '=', "%$dados%");
+		})->
+		limit(5000)->
+		get();
 
-		
+		return $data;		
 
 		}catch(Exception $e){
 			

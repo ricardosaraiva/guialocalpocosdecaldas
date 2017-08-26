@@ -130,56 +130,10 @@
 			
 			<div class="row">
 				<div class="col-md-10 col-sm-10">
-					<input placeholder="Buscar por: Nome, Bairro e Categoria" name="dados" v-model='buscar' type="text" class="form-control form-control-lg">
+					<input placeholder="Buscar por: Nome, Bairro e Categoria" name="dados" v-model="buscar"  type="text" class="form-control form-control-lg">
 				</div>
 				<div class="col-md-2 col-sm-2">
-					<button class="form-control btn btn-lg btn-success"><i class="fa fa-search"></i></button>
-				</div>
-			</div>
-
-			<div class="row">
-				<div class="col-md-12">
-				<el-table
-				:data="dados"
-				height="250"
-				border
-				style="width: 100%">
-				<el-table-column
-					prop="nome"
-					label="Nome"
-					>
-				</el-table-column>
-				<el-table-column
-					prop="atividade"
-					label="Atividade"
-					>
-				</el-table-column>
-
-				<el-table-column
-					prop="logradouro"
-					label="Logradouro"
-				>
-				</el-table-column>
-
-				<el-table-column
-					prop="bairro"
-					label="Bairro"
-				>
-				</el-table-column>
-
-				<el-table-column
-					prop="numero"
-					label="Numero"
-				>
-				</el-table-column>
-
-				<el-table-column
-					prop="logradouro"
-					label="logradouro"
-				>
-				</el-table-column>
-
-			</el-table>					
+					<button class="form-control btn btn-lg btn-success" @click="buscar"><i class="fa fa-search"></i></button>
 				</div>
 			</div>
 
@@ -221,6 +175,18 @@ $vm  = new Vue({
 		},
 
 		watch: {
+			dados: function(){
+
+				this.clearMap();// limpa o mapa
+
+				if(this.dados.length > 0){
+					this.addMarkMap(this.dados);		
+			 }
+			}
+		},
+		methods: {
+
+
 			buscar:function(val){
 			vm = this;
 		
@@ -232,17 +198,7 @@ $vm  = new Vue({
 					console.log(error);
 				});
 						
-			},
-			dados: function(){
-
-				this.clearMap();// limpa o mapa
-
-				if(this.dados.length > 0){
-					this.addMarkMap(this.dados);		
-			 }
-			}
-		},
-		methods: {
+			},			
 			
 			fetchAddress: function() {
 				this.map = new google.maps.Map(document.getElementById('map'), {
@@ -256,10 +212,10 @@ $vm  = new Vue({
 
 		contentString = [];
 		for (var i = 0; i < this.dados.length; i++) {
+
 			var obj = 
 				{lat: parseFloat(this.dados[i].latitude),
-				 lng: parseFloat(this.dados[i].longitude)};
-			
+				 lng: parseFloat(this.dados[i].longitude)};			
 
 
 			var marker = new google.maps.Marker({
@@ -269,7 +225,7 @@ $vm  = new Vue({
 	          			map: this.map
 	        });
 
-	        console.log(this.dados[i].nome);
+	    
 
 			contentString[i] = '<div id="content">'+
             '<div id="siteNotice">'+
