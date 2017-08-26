@@ -85,13 +85,10 @@
 				
 				<ul class="nav">
 				  <li class="nav-item">
-				    <a class="nav-link" href="#"><i class="fa fa-building"></i> Atividade</a>
+				    <a class="nav-link" href="#" onclick="graficoAtividade()"><i class="fa fa-building"></i> Atividade</a>
 				  </li>
 				  <li class="nav-item">
-				    <a class="nav-link" href="#"><i class="fa fa-calendar"></i> Periodo</a>
-				  </li>
-				  <li class="nav-item">
-				    <a class="nav-link" href="#"><i class="fa fa-map-marker "></i> Bairro</a>
+				    <a class="nav-link" href="#"  onclick="graficoPeriodo()"><i class="fa fa-calendar"></i> Periodo</a>
 				  </li>
 				</ul>
 
@@ -101,14 +98,29 @@
 			</div>
 		</div>
 
+		<div id="graficoPeriodo">
+
+			<div class="margin-bottom-15"></div>
+			<h2>Periodo</h2>
+			
+			<div id="graficoPeriodoConteudo"></div>
+		</div>	
+
 		<div id="graficoAtividade">
 
 			<div class="margin-bottom-15"></div>
 			<h2>Atividades</h2>
-			<hr>
 			
-			<div id="graficoAtividadeConteudo"></div>
-		</div>
+			<table class="table table-bordered">
+				<thead>
+					<tr>
+						<th class="col-md-11">Atividade</th>
+						<th class="col-md-1 center">Quantidade</th>
+					</tr>
+				</thead>
+				<tbody id="graficoAtividadeConteudo"></tbody>
+			</table>
+		</div>					
 
 	</div>
 
@@ -256,7 +268,7 @@ $vm  = new Vue({
 				.then(function (response) {
 					
 					vm.dados = response.data.dados;
-					grafico(response.data.periodo, response.data.bairro, response.data.atividade)
+					grafico(response.data.periodo, response.data.atividade)
 				})
 				.catch(function (error) {
 					console.log(error);
@@ -337,36 +349,76 @@ $vm  = new Vue({
     	document.getElementById('filtros').style.display = 'none';    		
     }
 
-    function grafico(periodo, bairro, atividade) {
+    function grafico(periodo, atividade) {
 
     	document.getElementById('graficos').style.display = 'block'; 
- 		
 
-		//google.charts.load('current', {packages: ['corechart', 'line']});
-		google.charts.load('current', {packages: ['corechart', 'bar']});
-		google.charts.setOnLoadCallback(drawChart);
+		gerarGraficoPeriodo(periodo);
+		gerarGraficoAtividade(atividade);
 
-		console.log(atividade);
-
-		function drawChart() {
-	        var data = google.visualization.arrayToDataTable([
-	          ['Ano', 'Empresas'],
-	          ['2004',  10],
-	          ['2005',  11],
-	          ['2006',  15],
-	          ['2007',  5]
-	        ]);
-
-	        var options = {
-	          legend: 'none'
-	        };
-
-	        var chart = new google.visualization.LineChart(document.getElementById('graficoAtividadeConteudo'));
-
-	        chart.draw(data, options);
-	    }    	
+		graficoPeriodo();
+		// graficoAtividade();
    	
     }
+
+
+    function gerarGraficoAtividade(atividade) {
+    	var el = document.getElementById('graficoAtividadeConteudo');
+    	el.innerHTML = '';
+
+    	for(i in atividade) {
+    		el.insertAdjacentHTML( 'beforeend', '<tr>'+
+    			'<td>'+atividade[i].atividade+'</td>'+
+    			'<td>'+atividade[i].total+'</td>'+
+    		'</tr>');
+    	}
+    }
+
+
+    function gerarGraficoPeriodo(periodo) {
+		google.charts.load('current', {packages: ['corechart', 'line']});
+		google.charts.setOnLoadCallback(drawChartPeriodo);
+		function drawChartPeriodo() {
+			dados = [];
+			dados.push(['Ano', 'Empresas']);
+
+			var ano15 = '';
+			var ano16 = '';
+			var ano17 = '';
+
+			for (i in periodo) {
+				dados.push([periodo[i].ano.toString(), periodo[i].total]);
+				ano15 = periodo[i].ano == 2015 ? periodo[i].total : ano15;
+				ano16 = periodo[i].ano == 2016 ? periodo[i].total : ano16;
+				ano17 = periodo[i].ano == 2017 ? periodo[i].total : ano17;
+			}
+
+			var total = ((ano15 + ano16 + ano17) / 3).toFixed(2);
+			var legenda = (ano15 < ano17) ? 'Perpectiva de crescimento para 2018 de ' + total + '%' . total : 'Perpectiva de queda para 2018 de ' + total + '%';
+
+	        var data = google.visualization.arrayToDataTable(dados);
+
+	        var options = {
+	        	legend: 'none',
+	          	hAxis: {
+		          title: legenda
+		        }
+	        };
+
+	        var chartPeriodo = new google.visualization.LineChart(document.getElementById('graficoPeriodoConteudo'));
+	        chartPeriodo.draw(data, options);
+	    }     	
+    }
+
+    function graficoAtividade() {
+    	document.getElementById('graficoPeriodo').style.display = 'none';
+    	document.getElementById('graficoAtividade').style.display = 'block'; 
+    }
+
+	function graficoPeriodo() {
+    	document.getElementById('graficoAtividade').style.display = 'none'; 
+    	document.getElementById('graficoPeriodo').style.display = 'block';
+    }      
 
     function fecharGrafico() {
     	document.getElementById('graficos').style.display = 'none';    	

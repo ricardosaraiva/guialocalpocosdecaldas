@@ -24,6 +24,8 @@ class ControllerEmpresa extends Controller {
 		where(function ($where) {
 			$where->whereNotNull('latitude');
 			$where->whereNotNull('longitude');
+			$where->where(DB::Raw('YEAR(datainscricao)'), '>=', "2007");
+			$where->where(DB::Raw('YEAR(datainscricao)'), '<=', "2017");
 		})->orWhere(function ($where) use ($input) {
 			$where->where('atividade', 'like', "%$input%");
 			$where->where('bairro', 'like', "%$input%");
@@ -82,7 +84,7 @@ class ControllerEmpresa extends Controller {
 				cep LIKE '%$dados%'
 			)
 			GROUP BY atividade
-			ORDER BY atividade ASC;"));	
+			ORDER BY total DESC;"));	
 
 
 		$retorno = new \stdClass;

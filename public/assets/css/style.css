@@ -186,7 +186,8 @@ button {
 	bottom: 0;
 	z-index: 1200;
 	padding: 20px;
-	opacity: 0.6;
+	opacity: 0.8;
+	overflow-y: scroll;
 }
 
 .graficos h1 {
@@ -211,4 +212,8 @@ button {
 
 .nav-item .active {
 	font-weight: bold;
+}
+
+#graficoPeriodoConteudo {
+	width: 100%;
 }
