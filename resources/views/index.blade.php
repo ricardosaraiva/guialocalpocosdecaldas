@@ -64,9 +64,9 @@
 			<i class="fa fa-arrows-alt"></i>
 		</button>
 		
-		<button class="btn btn-success info" onclick="grafico()">
+<!-- 		<button class="btn btn-success info" onclick="grafico()">
 			<i class="fa fa-line-chart"></i>
-		</button>	
+		</button>	 -->
 
 		<button onclick="filtros()" id="filtros" class="btn btn-success filtros">
 			<i class="fa fa-search"></i>
@@ -82,44 +82,34 @@
 	<div id="graficos" class="graficos">
 		<div class="row">
 			<div class="col-md-10">
-				<h1></h1>
+				
+				<ul class="nav">
+				  <li class="nav-item">
+				    <a class="nav-link" href="#"><i class="fa fa-building"></i> Atividade</a>
+				  </li>
+				  <li class="nav-item">
+				    <a class="nav-link" href="#"><i class="fa fa-calendar"></i> Periodo</a>
+				  </li>
+				  <li class="nav-item">
+				    <a class="nav-link" href="#"><i class="fa fa-map-marker "></i> Bairro</a>
+				  </li>
+				</ul>
+
 			</div>
 			<div class="col-md-2 right">
-				<button class="btn btn-danger" onclick="fecharGrafico()"><i class="fa fa-times"></i></button>
+				<a onclick="fecharGrafico()"><i class="fa fa-times"></i></a>
 			</div>
 		</div>
 
-		<div id="chart_div"></div>
+		<div id="graficoAtividade">
 
-		<div class="row filtro">
-			<div class="col-md-4">
-				<select class="form-control" name="" id="">
-					<option value="0">Listar por bairro</option>
-					<option value="1">Listar por categoria</option>
-				</select>
-			</div>
+			<div class="margin-bottom-15"></div>
+			<h2>Atividades</h2>
+			<hr>
+			
+			<div id="graficoAtividadeConteudo"></div>
 		</div>
 
-		<div class="row">
-			<div class="col-md-12">
-				<h2>Jardim Kenndy</h2>
-				<table class="table table-bordered">
-					<thead>
-						<tr>
-							<th>Categoria</th>
-							<th class="center" width="150px">Empresas</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>Categoria 1</td>
-							<td class="center">10</td>
-						</tr>
-					</tbody>
-					
-				</table>
-			</div>
-		</div>
 	</div>
 
 	<div id="formulario" class="formulario">
@@ -198,7 +188,7 @@ $vm  = new Vue({
 		
 				axios.post('/empresa',{'dados':val})
 				.then(function (response) {
-					vm.dados = response.data;
+					vm.dados = response.data.dados;
 				})
 				.catch(function (error) {
 					console.log(error);
@@ -236,10 +226,6 @@ $vm  = new Vue({
 
 	        });
 
-	        
-
-	    
-
 
 			contentString[i] = '<div id="content">'+
             '<div id="siteNotice">'+
@@ -263,13 +249,14 @@ $vm  = new Vue({
 		},
 		buscarDados: function(){
 
-console.log('data', this.buscar);
 
 			vm = this;
 		
 				axios.post('/empresa',{'dados':vm.buscar})
 				.then(function (response) {
-					vm.dados = response.data;
+					
+					vm.dados = response.data.dados;
+					grafico(response.data.periodo, response.data.bairro, response.data.atividade)
 				})
 				.catch(function (error) {
 					console.log(error);
@@ -350,9 +337,16 @@ console.log('data', this.buscar);
     	document.getElementById('filtros').style.display = 'none';    		
     }
 
-    function grafico() {
-		google.charts.load('current', {packages: ['corechart', 'line']});
+    function grafico(periodo, bairro, atividade) {
+
+    	document.getElementById('graficos').style.display = 'block'; 
+ 		
+
+		//google.charts.load('current', {packages: ['corechart', 'line']});
+		google.charts.load('current', {packages: ['corechart', 'bar']});
 		google.charts.setOnLoadCallback(drawChart);
+
+		console.log(atividade);
 
 		function drawChart() {
 	        var data = google.visualization.arrayToDataTable([
@@ -364,16 +358,14 @@ console.log('data', this.buscar);
 	        ]);
 
 	        var options = {
-	          title: 'Crescimento de empresas',
 	          legend: 'none'
 	        };
 
-	        var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+	        var chart = new google.visualization.LineChart(document.getElementById('graficoAtividadeConteudo'));
 
 	        chart.draw(data, options);
 	    }    	
-
-    	document.getElementById('graficos').style.display = 'block';    	
+   	
     }
 
     function fecharGrafico() {

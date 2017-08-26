@@ -1,38 +1,97 @@
 <?php
 namespace App\Http\Controllers;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use App\Model\Empresa;
 use GuzzleHttp\Exception\RequestException;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 
 class ControllerEmpresa extends Controller {
 
-	public function get(Request $request) {
+	public function get(Request $request, Response $response) {
 
 		try{
 			
 
-		$dados = $request->input('dados');
+		$input = $request->input('dados');
 
-		if(mb_strlen($dados, 'UTF-8') <= 3) {
+		if(mb_strlen($input, 'UTF-8') <= 3) {
 			return [];
 		}
 
-		$data = Empresa::
+		$dadosEmpresa = Empresa::
 		select('nome', 'logradouro', 'bairro', 'numero', 'latitude', 'longitude', 'atividade', 'datainscricao')->
 		where(function ($where) {
 			$where->whereNotNull('latitude');
 			$where->whereNotNull('longitude');
-		})->orWhere(function ($where) use ($dados) {
-			$where->where('atividade', '=', "%$dados%");
-			$where->where('bairro', '=', "%$dados%");
-			$where->where('nome', '=', "%$dados%");
-			$where->where('cep', '=', "%$dados%");
+		})->orWhere(function ($where) use ($input) {
+			$where->where('atividade', 'like', "%$input%");
+			$where->where('bairro', 'like', "%$input%");
+			$where->where('nome', 'like', "%$input%");
+			$where->where('cep', 'like', "%$input%");
 		})->
 		limit(1000)->
 		get();
 
-		return $data;		
+
+		//periodo
+		$dados = addslashes($input);
+		$periodo  = Db::select( Db::raw("
+			SELECT 
+				COUNT(*) as total, 
+				YEAR(datainscricao) as ano
+			FROM 
+				empresas
+			WHERE (YEAR(datainscricao) BETWEEN 2007 AND 2017 AND NOT ISNULL(latitude)  AND NOT ISNULL(longitude)) AND (
+				atividade LIKE '%$dados%' OR
+				bairro LIKE '%$dados%' OR
+				nome LIKE '%$dados%' OR
+				cep LIKE '%$dados%'
+			)
+			GROUP BY YEAR(datainscricao)
+			ORDER BY YEAR(datainscricao) ASC;"));
+
+
+		// bairro
+		$bairro  = Db::select( Db::raw("
+			SELECT 
+				COUNT(*) as total, 
+				bairro
+			FROM 
+				empresas
+			WHERE (YEAR(datainscricao) BETWEEN 2007 AND 2017 AND NOT ISNULL(latitude)  AND NOT ISNULL(longitude) AND bairro != '' AND not isnull(bairro)) AND (
+				atividade LIKE '%$dados%' OR
+				bairro LIKE '%$dados%' OR
+				nome LIKE '%$dados%' OR
+				cep LIKE '%$dados%'
+			)
+			GROUP BY bairro
+			ORDER BY bairro ASC;"));	
+
+		//atividade
+		$atividade  = Db::select( Db::raw("
+			SELECT 
+				COUNT(*) as total, 
+				atividade
+			FROM 
+				empresas
+			WHERE (YEAR(datainscricao) BETWEEN 2007 AND 2017 AND NOT ISNULL(latitude)  AND NOT ISNULL(longitude) AND atividade != '' AND not isnull(atividade) AND atividade != '0' AND atividade != '********' ) AND (
+				atividade LIKE '%$dados%' OR
+				bairro LIKE '%$dados%' OR
+				nome LIKE '%$dados%' OR
+				cep LIKE '%$dados%'
+			)
+			GROUP BY atividade
+			ORDER BY atividade ASC;"));	
+
+
+		$retorno = new \stdClass;
+		$retorno->dados = $dadosEmpresa;
+		$retorno->bairro = $bairro;
+		$retorno->periodo = $periodo;
+		$retorno->atividade = $atividade;
+
+		return json_encode($retorno);		
 
 		}catch(Exception $e){
 			
