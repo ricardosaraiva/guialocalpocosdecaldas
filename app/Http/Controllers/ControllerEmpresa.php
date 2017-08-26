@@ -12,12 +12,28 @@ class ControllerEmpresa extends Controller {
 		try{
 			
 		$count = Empresa::WhereRaw("MATCH(atividade) 
-		AGAINST('".$request->input('dados')." ')")
-		->where('atualizado','=',10)
+		AGAINST('".$request->input('dados')." ')
+		 OR MATCH(bairro) 
+		 AGAINST('".$request->input('dados')." ') ")
+		->where('atualizado','=',1)
+		->limit(1)
 		->count();
+
+
 		
 		if($count > 0){
 			$data = Empresa::WhereRaw("MATCH(atividade) 
+			AGAINST('".$request->input('dados')." ')
+			 AND MATCH(bairro) 
+			 AGAINST('".$request->input('dados')." ') ")
+			->where('atualizado','=',1)
+			->limit(200)
+			->get();
+			return  $data;
+		}
+
+		if($bairro > 0){
+			$data = Empresa::WhereRaw("MATCH(bairro) 
 			AGAINST('".$request->input('dados')."')")
 			->where('atualizado','=',10)
 			//->limit(10)
