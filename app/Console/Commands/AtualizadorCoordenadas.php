@@ -19,6 +19,15 @@ class AtualizadorCoordenadas extends Command
 
         $keys = new \ArrayObject();
         $keys->append('AIzaSyApjxPfyiREU8MCuWfypkzOiS8qYlG3Xqg');
+        $keys->append('AIzaSyCCev1h1ktpcyRIjnW4Q9r7z9QszuJSMwM');
+        $keys->append('AIzaSyCjCrr-t7EQ2xTWfyglPwlXJ7deckfqQ8M');
+        $keys->append('AIzaSyBB3oBMHUFzGRd1G11pOmj7_WG4BpI1j2U');
+        $keys->append('AIzaSyB1k62jEsO9UEsVWYYbgnFs4ht2uJniREs');
+        $keys->append('AIzaSyChTXg_89E0Ik60DSUNSpnMYBM633OJjRo');
+        $keys->append('AIzaSyC_hAyQUdoJmQEkrn2y86reIje31xP2bAI');
+        $keys->append('AIzaSyCIGjkBvQHNOHdyf_sbM6hxKPIqSZUKWc0');
+        $keys->append('AIzaSyBo3yGfLzkG7KlyVyuMUBY10I5clHaQal8');
+        $keys->append('AIzaSyDuUAtf4qMyTV43_h5dDkVI0pf_8LbPLvw');
 
         $enderecos =  Endereco::
             select('id', 'cidade', 'cep', 'numero', 'rua', 'uf')->

@@ -13,7 +13,8 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-         \App\Console\Commands\AtualizadorCoordenadas::class
+         \App\Console\Commands\AtualizadorCoordenadas::class,
+         \App\Console\Commands\AtualizarCadastro::class
     ];
 
     /**
