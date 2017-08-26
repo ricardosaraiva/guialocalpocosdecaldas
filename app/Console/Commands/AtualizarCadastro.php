@@ -42,6 +42,10 @@ class AtualizarCadastro extends Command
 				['timeout' => 2]);
 
     			} catch(RequestException $e) {
+					Empresa::where('codigo', '=', $empresa->codigo)->update([
+						'atualizado' => 2,
+						'status' => $dados->status
+					]);    				
     				continue;
     			}
 				
