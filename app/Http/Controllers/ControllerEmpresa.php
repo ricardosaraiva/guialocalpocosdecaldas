@@ -29,7 +29,7 @@ class ControllerEmpresa extends Controller {
 			$where->where('nome', 'like', "%$dados%");
 			$where->where('cep', 'like', "%$dados%");
 		})->
-		limit(5000)->
+		limit(1000)->
 		get();
 
 		return $data;		
