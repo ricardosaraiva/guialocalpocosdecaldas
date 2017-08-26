@@ -130,10 +130,14 @@
 			
 			<div class="row">
 				<div class="col-md-10 col-sm-10">
-					<input placeholder="Buscar por: Nome, Bairro e Categoria" name="dados" v-model='buscar' type="text" class="form-control form-control-lg">
+					<input placeholder="Buscar por: Nome, Bairro e Categoria" name="dados" v-model="buscar"  type="text" class="form-control form-control-lg">
 				</div>
 				<div class="col-md-2 col-sm-2">
+<<<<<<< HEAD
 					<button class="form-control btn btn-lg btn-success" @click="buscarDados"><i class="fa fa-search"></i></button>
+=======
+					<button class="form-control btn btn-lg btn-success" @click="buscar"><i class="fa fa-search"></i></button>
+>>>>>>> 3088f2185c990a4e8b754abc8cbdf8f013f54e37
 				</div>
 			</div>
 
@@ -175,7 +179,10 @@ $vm  = new Vue({
 		},
 
 		watch: {
+<<<<<<< HEAD
 
+=======
+>>>>>>> 3088f2185c990a4e8b754abc8cbdf8f013f54e37
 			dados: function(){
 
 				this.clearMap();// limpa o mapa
@@ -186,6 +193,23 @@ $vm  = new Vue({
 			}
 		},
 		methods: {
+<<<<<<< HEAD
+=======
+
+
+			buscar:function(val){
+			vm = this;
+		
+				axios.post('/empresa',{'dados':val})
+				.then(function (response) {
+					vm.dados = response.data;
+				})
+				.catch(function (error) {
+					console.log(error);
+				});
+						
+			},			
+>>>>>>> 3088f2185c990a4e8b754abc8cbdf8f013f54e37
 			
 			fetchAddress: function() {
 				this.map = new google.maps.Map(document.getElementById('map'), {
@@ -199,22 +223,34 @@ $vm  = new Vue({
 
 		contentString = [];
 		for (var i = 0; i < this.dados.length; i++) {
+
 			var obj = 
 				{lat: parseFloat(this.dados[i].latitude),
+<<<<<<< HEAD
 				 lng: parseFloat(this.dados[i].longitude)};
 			
+=======
+				 lng: parseFloat(this.dados[i].longitude)};			
+>>>>>>> 3088f2185c990a4e8b754abc8cbdf8f013f54e37
 
 
 			var marker = new google.maps.Marker({
 	          position: obj,
 						label: '',//labels[i % labels.length],
 						title: this.dados[i].nome,
+<<<<<<< HEAD
 	          map: this.map,
 						icon: './assets/imgs/ico.png'
 
 	        });
 
 	        console.log(this.dados[i].nome);
+=======
+	          			map: this.map
+	        });
+
+	    
+>>>>>>> 3088f2185c990a4e8b754abc8cbdf8f013f54e37
 
 			contentString[i] = '<div id="content">'+
             '<div id="siteNotice">'+
@@ -234,6 +270,7 @@ $vm  = new Vue({
 				
 			}
 			this.makeMarke(); // cria o cluster
+			fecharFiltros();
 		},
 		buscarDados: function(){
 

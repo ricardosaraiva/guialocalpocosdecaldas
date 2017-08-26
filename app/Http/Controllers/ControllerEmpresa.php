@@ -24,10 +24,10 @@ class ControllerEmpresa extends Controller {
 			$where->whereNotNull('latitude');
 			$where->whereNotNull('longitude');
 		})->orWhere(function ($where) use ($dados) {
-			$where->where('atividade', 'like', "%$dados%");
-			$where->where('bairro', 'like', "%$dados%");
-			$where->where('nome', 'like', "%$dados%");
-			$where->where('cep', 'like', "%$dados%");
+			$where->where('atividade', '=', "%$dados%");
+			$where->where('bairro', '=', "%$dados%");
+			$where->where('nome', '=', "%$dados%");
+			$where->where('cep', '=', "%$dados%");
 		})->
 		limit(1000)->
 		get();
