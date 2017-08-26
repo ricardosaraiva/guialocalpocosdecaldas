@@ -52,7 +52,6 @@ class ControllerEmpresa extends Controller {
 			GROUP BY YEAR(datainscricao)
 			ORDER BY YEAR(datainscricao) ASC;"));
 
-
 		// bairro
 		$bairro  = Db::select( Db::raw("
 			SELECT 
