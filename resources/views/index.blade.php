@@ -133,53 +133,7 @@
 					<input placeholder="Buscar por: Nome, Bairro e Categoria" name="dados" v-model='buscar' type="text" class="form-control form-control-lg">
 				</div>
 				<div class="col-md-2 col-sm-2">
-					<button class="form-control btn btn-lg btn-success"><i class="fa fa-search"></i></button>
-				</div>
-			</div>
-
-			<div class="row">
-				<div class="col-md-12">
-				<el-table
-				:data="dados"
-				height="250"
-				border
-				style="width: 100%">
-				<el-table-column
-					prop="nome"
-					label="Nome"
-					>
-				</el-table-column>
-				<el-table-column
-					prop="atividade"
-					label="Atividade"
-					>
-				</el-table-column>
-
-				<el-table-column
-					prop="logradouro"
-					label="Logradouro"
-				>
-				</el-table-column>
-
-				<el-table-column
-					prop="bairro"
-					label="Bairro"
-				>
-				</el-table-column>
-
-				<el-table-column
-					prop="numero"
-					label="Numero"
-				>
-				</el-table-column>
-
-				<el-table-column
-					prop="logradouro"
-					label="logradouro"
-				>
-				</el-table-column>
-
-			</el-table>					
+					<button class="form-control btn btn-lg btn-success" @click="buscarDados"><i class="fa fa-search"></i></button>
 				</div>
 			</div>
 
@@ -209,7 +163,8 @@
 
 
 <script>
-
+var contentString = [];
+var infoWindowClose ;
 $vm  = new Vue({
 		'el':'#formulario',
 		data: {
@@ -220,18 +175,7 @@ $vm  = new Vue({
 		},
 
 		watch: {
-			buscar:function(val){
-			vm = this;
-		
-				axios.post('/empresa',{'dados':val})
-				.then(function (response) {
-					vm.dados = response.data;
-				})
-				.catch(function (error) {
-					console.log(error);
-				});
-						
-			},
+
 			dados: function(){
 
 				this.clearMap();// limpa o mapa
@@ -253,48 +197,59 @@ $vm  = new Vue({
 		addMarkMap: function(){
 			var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
+		contentString = [];
 		for (var i = 0; i < this.dados.length; i++) {
 			var obj = 
 				{lat: parseFloat(this.dados[i].latitude),
 				 lng: parseFloat(this.dados[i].longitude)};
 			
-			console.log(i);
 
 
-				 var marker = new google.maps.Marker({
-          position: obj,
-					label: '',//labels[i % labels.length],
-					title: this.dados[i].nome,
-          map: this.map
-        });
+			var marker = new google.maps.Marker({
+	          position: obj,
+						label: '',//labels[i % labels.length],
+						title: this.dados[i].nome,
+	          map: this.map,
+						icon: './assets/imgs/ico.png'
 
-				var contentString = '<div id="content">'+
+	        });
+
+	        console.log(this.dados[i].nome);
+
+			contentString[i] = '<div id="content">'+
             '<div id="siteNotice">'+
             '</div>'+
-            '<h1 id="firstHeading" class="firstHeading">'+this.dados[i].nome+'</h1>'+
+            '<h6 id="firstHeading" class="firstHeading">'+this.dados[i].nome+'</h6>'+
             '<div id="bodyContent">'+
-						'<p>Rua: '+this.dados[i].logradouro+'</p>'
-						'<p>Bairro: '+this.dados[i].bairro+'</p>'
-						'<p>Numero: '+this.dados[i].numero+'</p>'
+						'<p>Rua: '+this.dados[i].logradouro+'</p>'+
+						'<p>Bairro: '+this.dados[i].bairro+'</p>'+
+						'<p>Numero: '+this.dados[i].numero+'</p>'+
+						'<p>Atividade: '+this.dados[i].atividade+'</p>'+
             '</div>'+
             '</div>';
 
-        var infowindow = new google.maps.InfoWindow({
-          content: contentString
-        });
+        	this.markers.push(marker); // add no marcador
 
-
-				marker.addListener('click', function() {
-					infowindow.close();
-          infowindow.open(this.map, marker);
-        });
-
-        this.markers.push(marker); // add no marcador
+        	addInfoWindow(marker, contentString[i]);
 				
 			}
 			this.makeMarke(); // cria o cluster
 		},
+		buscarDados: function(){
 
+console.log('data', this.buscar);
+
+			vm = this;
+		
+				axios.post('/empresa',{'dados':vm.buscar})
+				.then(function (response) {
+					vm.dados = response.data;
+				})
+				.catch(function (error) {
+					console.log(error);
+				});
+
+		},
 		makeMarke:function(){
 
 			this.markerCluster = new MarkerClusterer(this.map, this.markers,
@@ -316,6 +271,23 @@ $vm  = new Vue({
 		}
 		}
 })
+
+		function addInfoWindow(marker, message) {
+
+            var infoWindow = new google.maps.InfoWindow({
+                content: message
+            });
+
+            google.maps.event.addListener(marker, 'click', function () {
+
+            	if (infoWindowClose != undefined) {
+            		infoWindowClose.close();	
+            	}
+            	
+                infoWindow.open(map, marker);
+                infoWindowClose = infoWindow;
+            });
+        }
 
 	function toggleFullScreen() {
 		if (!document.fullscreenElement &&    // alternative standard method
