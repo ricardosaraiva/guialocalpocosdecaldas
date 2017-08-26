@@ -8,13 +8,19 @@ class ControllerEmpresa extends Controller {
 
 	public function get(Request $request) {
 
-		
-		$data = Empresa::WhereRaw("MATCH(tipo,documento,endereco) AGAINST('".$request->input('dados')."'")
+		try{
+			
+		$data = Empresa::WhereRaw("MATCH(tipo) 
+		AGAINST('".$request->input('dados')."')")
 		->limit(10)
 		->get();
 
 		return  $data;
 
-	
+		}catch(Exception $e){
+			
+			return $e->getMessage();
+		}
+
 	}
 }
