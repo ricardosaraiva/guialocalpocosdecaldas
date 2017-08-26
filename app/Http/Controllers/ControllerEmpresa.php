@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Model\Empresa;
+use GuzzleHttp\Exception\RequestException;
 
 class ControllerEmpresa extends Controller {
 
@@ -10,11 +11,21 @@ class ControllerEmpresa extends Controller {
 
 		try{
 			
-		$data = Empresa::WhereRaw("MATCH(tipo) 
-		AGAINST('".$request->input('dados')."')")
-		->get();
+		$count = Empresa::WhereRaw("MATCH(atividade) 
+		AGAINST('".$request->input('dados')." ')")
+		->where('atualizado','=',10)
+		->count();
+		
+		if($count > 0){
+			$data = Empresa::WhereRaw("MATCH(atividade) 
+			AGAINST('".$request->input('dados')."')")
+			->where('atualizado','=',10)
+			//->limit(10)
+			->get();
+			return  $data;
+		}
 
-		return  $data;
+		
 
 		}catch(Exception $e){
 			

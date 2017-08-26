@@ -3,6 +3,7 @@ namespace App\Console\Commands;
 
 use App\Model\Empresa;
 use Illuminate\Console\Command;
+use GuzzleHttp\Exception\RequestException;
 
 class AtualizarCadastro extends Command
 {
@@ -27,24 +28,27 @@ class AtualizarCadastro extends Command
         limit(500)->
     	get();
 
-		$http = new \GuzzleHttp\Client
-		(
-			['headers'=> [ 
-				'User-Agent'=>'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.81 Safari/537.36'
-				]
-			]);
+		$http = new \GuzzleHttp\Client();
 		
 
         $erro = 0;    	
 
     	foreach ($empresas as $empresa) {
-    		
-			$request = $http->request('GET', 'https://www.receitaws.com.br/v1/cnpj/' .  preg_replace('/[^0-9]/', '', $empresa->documento));
+    			
+    			echo 'https://www.receitaws.com.br/v1/cnpj/' .  preg_replace('/[^0-9]/', '', $empresa->documento) . PHP_EOL;
 
+    			try {
+				$request = @$http->request('GET', 'https://www.receitaws.com.br/v1/cnpj/' .  preg_replace('/[^0-9]/', '', $empresa->documento) ,
+				['timeout' => 2]);
 
-			$dados = $request->getBody();
+    			} catch(RequestException $e) {
+					Empresa::where('codigo', '=', $empresa->codigo)->update([
+						'atualizado' => 2,
+						'status' => $dados->status
+					]);    				
+    				continue;
+    			}
 				
-			
 			if($request->getStatusCode() == 200 ) {
 
 				$dados = json_decode($request->getBody());
