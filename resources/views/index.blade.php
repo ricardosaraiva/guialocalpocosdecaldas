@@ -209,7 +209,8 @@
 
 
 <script>
-
+var contentString = [];
+var infoWindowClose ;
 $vm  = new Vue({
 		'el':'#formulario',
 		data: {
@@ -253,22 +254,24 @@ $vm  = new Vue({
 		addMarkMap: function(){
 			var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
+		contentString = [];
 		for (var i = 0; i < this.dados.length; i++) {
 			var obj = 
 				{lat: parseFloat(this.dados[i].latitude),
 				 lng: parseFloat(this.dados[i].longitude)};
 			
-			console.log(i);
 
 
-				 var marker = new google.maps.Marker({
-          position: obj,
-					label: '',//labels[i % labels.length],
-					title: this.dados[i].nome,
-          map: this.map
-        });
+			var marker = new google.maps.Marker({
+	          position: obj,
+						label: '',//labels[i % labels.length],
+						title: this.dados[i].nome,
+	          			map: this.map
+	        });
 
-				var contentString = '<div id="content">'+
+	        console.log(this.dados[i].nome);
+
+			contentString[i] = '<div id="content">'+
             '<div id="siteNotice">'+
             '</div>'+
             '<h1 id="firstHeading" class="firstHeading">'+this.dados[i].nome+'</h1>'+
@@ -279,17 +282,9 @@ $vm  = new Vue({
             '</div>'+
             '</div>';
 
-        var infowindow = new google.maps.InfoWindow({
-          content: contentString
-        });
+        	this.markers.push(marker); // add no marcador
 
-
-				marker.addListener('click', function() {
-					infowindow.close();
-          infowindow.open(this.map, marker);
-        });
-
-        this.markers.push(marker); // add no marcador
+        	addInfoWindow(marker, contentString[i]);
 				
 			}
 			this.makeMarke(); // cria o cluster
@@ -316,6 +311,23 @@ $vm  = new Vue({
 		}
 		}
 })
+
+		function addInfoWindow(marker, message) {
+
+            var infoWindow = new google.maps.InfoWindow({
+                content: message
+            });
+
+            google.maps.event.addListener(marker, 'click', function () {
+
+            	if (infoWindowClose != undefined) {
+            		infoWindowClose.close();	
+            	}
+            	
+                infoWindow.open(map, marker);
+                infoWindowClose = infoWindow;
+            });
+        }
 
 	function toggleFullScreen() {
 		if (!document.fullscreenElement &&    // alternative standard method
