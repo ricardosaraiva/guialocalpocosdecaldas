@@ -172,6 +172,7 @@
 
 
 
+
 <script type="text/javascript" src="{{url('/assets/js/loader.js')}}"></script>
 <script src="{{url('/assets/js/jquery-3.1.1.slim.min.js')}}"></script>
 <script src="{{url('/assets/js/tether.min.js')}}"></script>
