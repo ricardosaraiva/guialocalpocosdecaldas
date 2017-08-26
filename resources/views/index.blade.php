@@ -216,7 +216,6 @@ $vm  = new Vue({
 			dados: [],
 			buscar : '',
 			markers:[],
-			neighborhoods : []	,
 			markerCluster: null		
 		},
 
@@ -233,25 +232,10 @@ $vm  = new Vue({
 				});
 						
 			},
-			dados: function(){; 
-
+			dados: function(){
 				if(this.dados.length > 0){
-				this.fetchAddress();
-				this.addMarkMap(this.dados);	
-				var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-
-				this.markers = this.neighborhoods.map(function(location, i) {
-          return new google.maps.Marker({
-            position: location,
-            label: labels[i % labels.length]
-          });
-        });
-
-			
-				this.markerCluster = new MarkerClusterer(this.map, this.markers,
-					{imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'}
-      );			
-			}
+					this.addMarkMap(this.dados);		
+			 }
 			}
 		},
 		methods: {
@@ -262,18 +246,30 @@ $vm  = new Vue({
         	zoom: 13
         });
 
-			
 		},
 		addMarkMap: function(){
-			vm =  this;
+			var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
 		for (var i = 0; i < this.dados.length; i++) {
 			var obj = 
 				{lat: parseFloat(this.dados[i].latitude),
 				 lng: parseFloat(this.dados[i].longitude)};
-				 console.log(obj);
-				 this.neighborhoods.push(obj);
-				// this.addMarkerWithTimeout(obj, i * 200);
+				// console.log(obj);
+				 var marker = new google.maps.Marker({
+          position: obj,
+					label: labels[i % labels.length],
+          map: this.map
+        });
+        this.markers.push(marker); // add no marcador
 			}
+			this.makeMarke(); // cria o cluster
+		}
+
+		makeMarke:function(){
+
+			this.markerCluster = new MarkerClusterer(this.map, this.markers,
+					{imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'}
+      );
 		}
 		}
 })
