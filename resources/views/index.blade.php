@@ -120,7 +120,8 @@
 				</thead>
 				<tbody id="graficoAtividadeConteudo"></tbody>
 			</table>
-		</div>					
+		</div>		
+					
 
 	</div>
 
